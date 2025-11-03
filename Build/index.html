@@ -27,9 +27,11 @@
 
         #box {
             position: relative;
-            background-color: #fff;
+            background-color: #f5d19c;
             width: 50%;
+            min-width: 155px;
             height: 50%;
+            min-height: 256px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -92,11 +94,26 @@
             <span id="arrow">nothing</span>
         </button>
         <ul id="dropdown-list">
-            <li><span class="list-label">First</span><span class="check-mark"></span></li>
-            <li><span class="list-label">Second</span><span class="check-mark"></span></li>
-            <li><span class="list-label">Third</span><span class="check-mark"></span></li>
-            <li><span class="list-label">Fourth</span><span class="check-mark"></span></li>
-            <li><span class="list-label">Fifth</span><span class="check-mark"></span></li>
+            <li id="li-selection-1">
+                <span class="list-label">First</span>
+                <span class="check-mark"></span>
+            </li>
+            <li id="li-selection-2">
+                <span class="list-label">Second</span>
+                <span class="check-mark"></span>
+            </li>
+            <li id="li-selection-3">
+                <span class="list-label">Third</span>
+                <span class="check-mark"></span>
+            </li>
+            <li id="li-selection-4">
+                <span class="list-label">Fourth</span>
+                <span class="check-mark"></span>
+            </li>
+            <li id="li-selection-5">
+                <span class="list-label">Fifth</span>
+                <span class="check-mark"></span>
+            </li>
         </ul>
     </div>
 
@@ -121,25 +138,54 @@
             }
         };
 
+        // let activeSelected = true;
+        let isSelected = false;
+
         dropDownListItems.forEach((li) => {
-            let isSelected = false;
+            // if (dropDownLabel.textContent !== listLabel.textContent) {
+            //     listCheckMark.textContent = '';
+            // } 
+
+            //if li isSelected put variable isSelected to li when clicked
 
             li.addEventListener('click', () => {
+                dropDownToggle();
                 const listLabel = li.querySelector('.list-label');
                 const listCheckMark = li.querySelector('.check-mark');
-
                 console.log('i am', listLabel);
-                dropDownToggle();
-                dropDownLabel.textContent = listLabel.textContent;
-                
-                isSelected = !isSelected;
 
-                if (isSelected) {
-                    listCheckMark.textContent = '\u2714';
-                } else {
-                    listCheckMark.textContent = '';
-                }
                 
+                
+                if (isSelected === false) {
+                    if (listCheckMark.textContent === '') {
+                    //checkmark and label will only be added if checkmark is empty
+                    listCheckMark.textContent = '\u2714';
+                    dropDownLabel.textContent = listLabel.textContent;
+                    isSelected = true;
+                    console.log('isSelected is', isSelected);
+                    } else {
+                        isSelected = false;
+                        }
+                }   else {
+                        if (listCheckMark.textContent === '\u2714') {
+                            isSelected = false;
+                            listCheckMark.textContent = '';
+                            dropDownLabel.textContent = 'Select an Item';
+                            console.log('isSelected is', isSelected);
+                        } else if (listCheckMark.textContent === '') {
+                            dropDownListItems.forEach((li) => {
+                                const listLabel = li.querySelector('.list-label');
+                                const listCheckMark = li.querySelector('.check-mark');
+
+                                listCheckMark.textContent = '';
+                                isSelected = false;
+                            });
+                            
+                            listCheckMark.textContent = '\u2714';
+                            dropDownLabel.textContent = listLabel.textContent;
+                            isSelected = true;
+                        }     
+                }
             });
         });
 
